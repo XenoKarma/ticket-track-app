@@ -8,6 +8,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class AuthController extends Controller
 {
@@ -99,6 +101,8 @@ class AuthController extends Controller
                 ]
             ], 201);
         }catch (Exception $e) {
+            DB::rollBack();
+            
             return response()->json([
                 'message' => 'Something went wrong',
                 'error' => $e->getMessage(),

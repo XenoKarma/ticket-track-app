@@ -26,8 +26,8 @@ class DashboardController extends Controller
         $avgResolutionTime = Ticket::whereBetween('created_at', [$currentMonth, $endofMonth])
         ->where('status', 'resolved')
         ->whereNotNull('completed_at')
-        ->select(DB::raw('TIMESTAMPDIFF(HOUR, created_at, completed_at) as avg_time'))
-        ->avg('avg_time') ?? 0;
+        ->select(DB::raw('AVG(TIMESTAMPDIFF(HOUR, created_at, completed_at)) as avg_time'))
+        ->value('avg_time') ?? 0;
 
         $statusDistribution = [
             'open' =>Ticket::whereBetween('created_at', [$currentMonth, $endofMonth])->where('status', 'open')->count(),
@@ -46,7 +46,7 @@ class DashboardController extends Controller
 
         return response()->json([
             'message' => 'Dashboard statistics retrieved successfully',
-            'data' => new DashboardResource($dashboardData) ,
+            'data' => $dashboardData,
         ]);
 
     }

@@ -15,6 +15,7 @@ class Ticket extends Model
         'status',
         'priority',
         'completed_at',
+        'resolved_at',
     ];
 
     public function user()

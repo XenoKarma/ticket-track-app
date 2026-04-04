@@ -108,6 +108,7 @@ class TicketController extends Controller
             $ticket->description = $data['description'];
             $ticket->priority = $data['priority'];
             $ticket->save();
+            $ticket->load('user');
             DB::commit();
             return response()->json([
                 'message' => 'Ticket created successfully',
